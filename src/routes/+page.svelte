@@ -5,10 +5,12 @@
 	const clickHandler = async () => {
 		const response = await fetch(`/`);
 		const reader = response.body?.pipeThrough(new TextDecoderStream()).getReader();
-		// console.log(response.headers.get('Content-Length'));
 		while (true) {
 			const { done, value } = await reader?.read();
-			if (done) break;
+			if (done) {
+				chunks = [...chunks, 'done'];
+				break;
+			}
 			chunks = [...chunks, value];
 		}
 	};

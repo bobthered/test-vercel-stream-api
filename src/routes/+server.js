@@ -6,6 +6,7 @@ export const GET = async () => {
 				controller.enqueue(encoder.encode(i.toString()));
 				await new Promise((res) => setTimeout(res, 100));
 			}
+			controller.close();
 		}
 	});
 
