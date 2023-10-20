@@ -1,0 +1,1 @@
+export { barcodeTypes } from './barcodeTypes';
