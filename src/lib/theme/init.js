@@ -17,6 +17,7 @@ export const init = () => {
 		),
 		checkboxChecked: 'bg-primary-500 dark:bg-primary-500',
 		input,
+		nav: 'flex-row',
 		option: 'bg-white dark:bg-gray-900',
 		radio:
 			'focus:ring-primary-500/[.3] focus:ring-offset-primary-500 group-hover:ring-offset-primary-500 hover:ring-offset-primary-500',
