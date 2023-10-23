@@ -7,7 +7,10 @@
 	import '../app.postcss';
 
 	// props (internal)
-	const nav = [{ href: '/simple-text', text: 'Simple Text' }];
+	const nav = [
+		{ href: '/simple-text', text: 'Simple Text' },
+		{ href: '/zip-generation', text: 'ZIP Generation' }
+	];
 	init();
 </script>
 
@@ -22,15 +25,16 @@
 						$theme.button,
 						'rounded-none',
 						$page.url.pathname === href
-							? ''
+							? 'cursor-default hover:bg-primary-500 focus:bg-primary-500 focus:ring-transparent'
 							: 'bg-transparent hover:bg-black/[.1] focus:bg-black/[.1] dark:hover:bg-white/[.1] dark:focus:bg-white/[.1]'
 					)}
-					{href}>{text}</a
+					{href}
+					tabindex={$page.url.pathname === href ? '-1' : undefined}>{text}</a
 				>
 			{/each}
 		</Nav>
 	</Header>
-	<div class="flex flex-col flex-grow overflow-auto p-[1rem]">
+	<div class="flex flex-col flex-grow overflow-auto p-[1rem] space-y-[1rem]">
 		<slot />
 	</div>
 </div>
