@@ -8,11 +8,10 @@ const encoder = new TextEncoder();
 /**
  *
  * @param {number} completed number of completed barcodes
- * @param {null | undefined | Uint8Array} file zip file created
  * @param {number} total number of total barcodes
  * @returns
  */
-const sendMessage = (completed = 0, file = null, total = 0) => {
+const sendMessage = (completed = 0, total = 0) => {
 	// update current time
 	time.current = new Date();
 
@@ -21,7 +20,7 @@ const sendMessage = (completed = 0, file = null, total = 0) => {
 
 	// check if elapsed is larger than threshold
 	if (elapsed >= time.threshold) {
-		controller.enqueue(encoder.encode(JSON.stringify({ completed, file, total })));
+		controller.enqueue(encoder.encode(JSON.stringify({ completed, total })));
 		time.start = time.current;
 	}
 };
@@ -44,7 +43,7 @@ export const GET = async () => {
 			controller = c;
 
 			// send message with initial values
-			sendMessage(0, null, totalBarcodes);
+			sendMessage(0, totalBarcodes);
 			await new Promise((res) => setTimeout(res, delay));
 			for (let i = 0; i < totalBarcodes; i++) {
 				// initiate pdf doc
@@ -55,7 +54,7 @@ export const GET = async () => {
 				jszip.file(`${i}.pdf`, doc);
 
 				// send message with updated values
-				sendMessage(i + 1, null, totalBarcodes);
+				sendMessage(i + 1, totalBarcodes);
 				await new Promise((res) => setTimeout(res, delay));
 			}
 			// create zip file
@@ -70,31 +69,4 @@ export const GET = async () => {
 			'content-type': 'text/event-stream'
 		}
 	});
-	// const readable = new ReadableStream({
-	// 	async start(controller) {
-	// 		// initiate JSZip
-	// 		const jszip = new JSZip();
-
-	// 		for (let i = 0; i < totalBarcodes; i++) {
-	// 			const doc = new PDFKit();
-	// 			doc.end();
-
-	// 			// add file
-	// 			jszip.file(`${i}.pdf`, doc);
-	// 			console.log(`created pdf ${i}`);
-	// 			await new Promise((res) => setTimeout(res, 100));
-	// 		}
-
-	// 		// create zip file
-	// 		const zip = await jszip.generateAsync({ type: 'uint8array' });
-	// 		controller.enqueue(zip);
-	// 		controller.close();
-	// 	}
-	// });
-
-	// return new Response(readable, {
-	// 	headers: {
-	// 		'content-type': 'text/event-stream'
-	// 	}
-	// });
 };
