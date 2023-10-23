@@ -1,4 +1,4 @@
 export const config = {
-	maxDuration: 60,
-	runtime: 'edge'
+	maxDuration: 300,
+	runtime: 'nodejs18.x'
 };
